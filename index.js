@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 
@@ -24,8 +26,10 @@ app.get('/enterText', function(req, res){
 });
 
 app.post('/enterText', function(req, res){
-	 
-	res.send("asdf");	
+	 var x = req.body["authorName"];
+	 var y = req.body["textName"];
+	 blogData.push({"author": x, "text": y});
+	 res.render('home');
 });
 
 
