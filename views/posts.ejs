@@ -1,0 +1,13 @@
+<h1>posts list</h1>
+
+
+<% blogData.forEach(function(element){ %>
+<ul>
+	<li>
+		<div><b>Author:</b> <%= element["author"] %></div>
+		<div><b>Post:</b> <%= element["text"] %></div>
+	</li>	
+</ul>
+<% }); %>
+
+<a href="/"><button>Go back home</button></a>
