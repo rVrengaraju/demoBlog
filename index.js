@@ -1,35 +1,62 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+var express     =  require('express');
+var app         =  express();
+var bodyParser  =  require('body-parser');
+var mongoose    = require('mongoose');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+mongoose.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true });
 
 
-var blogData = [
-	{"author": 'john',    'text': "asdf"},
-	{"author": 'mike',    'text': "fdsa"},
-	{"author": 'adrian',  'text': "1234"},
-	{"author": 'wyatt',   'text': "jkl;"}
-];
+var blogSchema = new mongoose.Schema({
+	author: String,
+	text: String
+});
+
+var Post = mongoose.model("Post", blogSchema);
+
+// Post.create({
+// 	"author": "john",
+// 	"text": "asdf"
+// }, function(err, post){
+// 	if(err){
+// 		console.log(err)
+// 	} else {
+// 		console.log(post);
+// 	}
+// });
+
 
 
 app.get('/', function(req, res){
-	res.render('home');
+	res.redirect("/blog");
 });
 
-app.get('/posts', function(req, res){
-	res.render('posts', {blogData: blogData});
+app.get('/blog', function(req, res){
+	Post.find({}, function(err, posts){
+		if(err){
+			console.log(err);
+		} else {
+			res.render('posts', {posts: posts});
+		}
+	});
+	
 });
 
-app.get('/enterText', function(req, res){
+
+// app.get('/blog', function(req, res){
+// 	res.render('posts', {blogData: blogData});
+// });
+
+app.get('/blog/new', function(req, res){
 	res.render('enterText');
 });
 
-app.post('/enterText', function(req, res){
+app.post('/blog', function(req, res){
 	 var x = req.body["authorName"];
 	 var y = req.body["textName"];
 	 blogData.push({"author": x, "text": y});
-	 res.render('home');
+	 res.render('posts', {blogData: blogData});
 });
 
 

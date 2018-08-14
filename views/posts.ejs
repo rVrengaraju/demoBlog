@@ -1,13 +1,13 @@
-<h1>posts list</h1>
+<h1>Welcome to Quinks</h1>
 
 
-<% blogData.forEach(function(element){ %>
+<% posts.forEach(function(element){ %>
 <ul>
 	<li>
 		<div><b>Author:</b> <%= element["author"] %></div>
-		<div><b>Post:</b> <%= element["text"] %></div>
+		<div><b>Text:</b> <%= element["text"] %></div>
 	</li>	
 </ul>
 <% }); %>
 
-<a href="/"><button>Go back home</button></a>
+<a href="/blog/new"><button>Post Blog</button></a>
