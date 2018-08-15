@@ -6,9 +6,10 @@
 	<% posts.forEach(function(element){ %>
 	<ul>
 		<li class="card">
-			<div><b>Text:</b> <%= element["text"] %></div>
+			Preview
+			<div><b>Text:</b> <%= element["text"].substring(0,250) %></div>
 			<div><b>Author:</b> <%= element["author"] %></div>
-			<div><a href="/blog/:id"><button>More</button></a></div>
+			<div><a href="/blog/<%=element["_id"]%>"><button>More</button></a></div>
 		</li>	
 	</ul>
 	<% }); %>

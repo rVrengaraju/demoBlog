@@ -16,7 +16,7 @@ var blogSchema = new mongoose.Schema({
 
 var Post = mongoose.model("Post", blogSchema);
 
-//////////  	GET AND POST TO THE /BLOG      ////////////
+
 
 app.get('/', function(req, res){
 	res.redirect("/blog");
@@ -25,6 +25,7 @@ app.get('/', function(req, res){
 app.get('/blog', function(req, res){
 	Post.find({}, function(err, posts){
 		if(err){
+			//change this to proper error message page
 			console.log(err);
 		} else {
 			res.render('posts', {posts: posts});
@@ -32,6 +33,7 @@ app.get('/blog', function(req, res){
 	});
 	
 });
+
 
 app.post('/blog', function(req, res){
 	 var sentAuthor = req.body["authorName"];
@@ -41,6 +43,7 @@ app.post('/blog', function(req, res){
 		"text": sentText
 	}, function(err, posts){
 		if(err){
+			// change this to the proper error page
 			console.log(err)
 		} else {
 			res.redirect('/blog');
@@ -54,9 +57,17 @@ app.get('/blog/new', function(req, res){
 
 
 app.get('/blog/:id', function(req, res){
-	res.render('show');
+	var id = req.params.id;
+	Post.findById(id, function(err, post){
+		if(err){
+			// change this to proper error message
+			res.redirect('/blog');
+		} else {
+			res.render('show', {post: post})
+		}
+	});
+	
 });
-
 
 
 
@@ -65,3 +76,4 @@ app.get('/blog/:id', function(req, res){
 app.listen('3000', function(){
 	console.log('localhost 3000 bih');
 });
+
