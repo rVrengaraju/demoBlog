@@ -26,17 +26,16 @@ app.get('/', function(req, res){
 app.get('/blog', function(req, res){
 	Post.find({}, function(err, posts){
 		if(err){
-			//change this to proper error message page
+			//error message found
 			console.log(err);
+			var error = err;
+			res.render('error', {error: error});
 		} else {
 			res.render('posts', {posts: posts});
 		}
 	});
 	
 });
-
-// var date = new Date;
-// console.log(date.getHours());
 
 
 
@@ -53,8 +52,10 @@ app.post('/blog', function(req, res){
 		"date": sentDate
 	}, function(err, posts){
 		if(err){
-			// change this to the proper error page
-			console.log(err)
+			//error message found
+			console.log(err);
+			var error = err;
+			res.render('error', {error: error});
 		} else {
 			res.redirect('/blog');
 		}
@@ -71,8 +72,10 @@ app.get('/blog/:id', function(req, res){
 	var id = req.params.id;
 	Post.findById(id, function(err, post){
 		if(err){
-			// change this to proper error message
-			res.redirect('/blog');
+			//error message found
+			console.log(err);
+			var error = err;
+			res.render('error', {error: error});
 		} else {
 			res.render('show', {post: post})
 		}
