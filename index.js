@@ -4,6 +4,7 @@ var bodyParser  =  require('body-parser');
 var mongoose    = require('mongoose');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.set("view engine", "ejs");
 mongoose.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true });
 
@@ -15,18 +16,7 @@ var blogSchema = new mongoose.Schema({
 
 var Post = mongoose.model("Post", blogSchema);
 
-// Post.create({
-// 	"author": "john",
-// 	"text": "asdf"
-// }, function(err, post){
-// 	if(err){
-// 		console.log(err)
-// 	} else {
-// 		console.log(post);
-// 	}
-// });
-
-
+//////////  	GET AND POST TO THE /BLOG      ////////////
 
 app.get('/', function(req, res){
 	res.redirect("/blog");
@@ -43,21 +33,33 @@ app.get('/blog', function(req, res){
 	
 });
 
-
-// app.get('/blog', function(req, res){
-// 	res.render('posts', {blogData: blogData});
-// });
+app.post('/blog', function(req, res){
+	 var sentAuthor = req.body["authorName"];
+	 var sentText = req.body["textName"];
+	 Post.create({
+		"author": sentAuthor,
+		"text": sentText
+	}, function(err, posts){
+		if(err){
+			console.log(err)
+		} else {
+			res.redirect('/blog');
+		}
+	});
+});
 
 app.get('/blog/new', function(req, res){
 	res.render('enterText');
 });
 
-app.post('/blog', function(req, res){
-	 var x = req.body["authorName"];
-	 var y = req.body["textName"];
-	 blogData.push({"author": x, "text": y});
-	 res.render('posts', {blogData: blogData});
+
+app.get('/blog/:id', function(req, res){
+	res.render('show');
 });
+
+
+
+
 
 
 app.listen('3000', function(){

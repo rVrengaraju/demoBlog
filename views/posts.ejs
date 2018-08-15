@@ -1,13 +1,17 @@
-<h1>Welcome to Quinks</h1>
+<% include partials/header%> 
+
+	<h1>Welcome to Quinks</h1>
 
 
-<% posts.forEach(function(element){ %>
-<ul>
-	<li>
-		<div><b>Author:</b> <%= element["author"] %></div>
-		<div><b>Text:</b> <%= element["text"] %></div>
-	</li>	
-</ul>
-<% }); %>
+	<% posts.forEach(function(element){ %>
+	<ul>
+		<li class="card">
+			<div><b>Text:</b> <%= element["text"] %></div>
+			<div><b>Author:</b> <%= element["author"] %></div>
+			<div><a href="/blog/:id"><button>More</button></a></div>
+		</li>	
+	</ul>
+	<% }); %>
+	<a href="/blog/new"><button>Post Blog</button></a>
 
-<a href="/blog/new"><button>Post Blog</button></a>
+<% include partials/footer%>

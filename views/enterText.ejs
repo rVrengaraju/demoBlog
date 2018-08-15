@@ -1,9 +1,13 @@
-<h1>Post</h1>
+<% include partials/header%> 
 
-<form method="post" action="/blog">
-	<input type="text" name="authorName">
-	<input type="text" name="textName">
-	<input type="submit">
-</form>
+	<h1>Post</h1>
 
-<a href="/blog"><button>Go back home</button></a>
+	<form method="post" action="/blog">
+		<input type="text" name="authorName">
+		<div><textarea name="textName"></textarea></div>
+		<input type="submit">
+	</form>
+
+	<a href="/blog"><button>Go back home</button></a>
+
+<% include partials/footer%>
