@@ -2,17 +2,24 @@
 
 	<h1>Welcome to Quinks</h1>
 
-
+	
 	<% posts.forEach(function(element){ %>
+	<% var dots = "..." %> 
+
+	<% if(element["text"].length < 250){ %>
+		<% dots = ""; %>
+	<% } %>
 	<ul>
 		<li class="card">
-			Preview
-			<div><b>Text:</b> <%= element["text"].substring(0,250) %></div>
+			***Preview***
+			<div><b>Text:</b> <%= element["text"].substring(0,247) %><%= dots %></div>
 			<div><b>Author:</b> <%= element["author"] %></div>
+			<div><b>Date:</b> <%= element["date"] %></div>
 			<div><a href="/blog/<%=element["_id"]%>"><button>More</button></a></div>
 		</li>	
 	</ul>
 	<% }); %>
 	<a href="/blog/new"><button>Post Blog</button></a>
+
 
 <% include partials/footer%>

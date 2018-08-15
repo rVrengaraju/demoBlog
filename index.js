@@ -11,11 +11,12 @@ mongoose.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true });
 
 var blogSchema = new mongoose.Schema({
 	author: String,
-	text: String
+	text: String,
+	date: String
 });
 
-var Post = mongoose.model("Post", blogSchema);
 
+var Post = mongoose.model("Post", blogSchema);
 
 
 app.get('/', function(req, res){
@@ -34,13 +35,22 @@ app.get('/blog', function(req, res){
 	
 });
 
+// var date = new Date;
+// console.log(date.getHours());
+
+
+
 
 app.post('/blog', function(req, res){
 	 var sentAuthor = req.body["authorName"];
 	 var sentText = req.body["textName"];
+	 var today = new Date(); 
+	 var time = today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+	 var sentDate = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear() + " " + time;
 	 Post.create({
 		"author": sentAuthor,
-		"text": sentText
+		"text": sentText,
+		"date": sentDate
 	}, function(err, posts){
 		if(err){
 			// change this to the proper error page
@@ -50,6 +60,7 @@ app.post('/blog', function(req, res){
 		}
 	});
 });
+
 
 app.get('/blog/new', function(req, res){
 	res.render('enterText');
@@ -68,6 +79,14 @@ app.get('/blog/:id', function(req, res){
 	});
 	
 });
+
+app.get('/delete/:id', function(req, res){
+	var id = req.params.id;
+	Post.findByIdAndRemove(id, function(){
+		res.redirect('/blog');
+	}); 
+});
+
 
 
 
